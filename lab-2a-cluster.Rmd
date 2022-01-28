@@ -1,19 +1,122 @@
 ---
-title: 'Lab 2A: Community Cluster'
+title: 'Lab 2: Community'
 author: "Halina Do-Linh"
-date: "1/26/2022"
-output: html_document
+date: "`r Sys.Date()`"
+output:
+  html_document:
+  toc: true
+  toc_float: true
+  code_folding: show
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-library(palmerpenguins)
+librarian::shelf(
+  palmerpenguins,
+  tidyverse,
+  janitor,
+  DT,
+  tibble,
+  ggvoronoi,
+  scales
+)
+
+# set seed for reproducible results
+set.seed(42)
 ```
 
 # Load data from Palmer Penguins
 
 ```{r}
+penguins <- read_csv(path_to_file("penguins_raw.csv")) %>% 
+  clean_names() %>%
+  dplyr::select(c("species", "flipper_length_mm", "body_mass_g")) %>% 
+  na.omit() # had to remove rows with na to run kmeans function
 
+# show data table
+datatable(penguins)
 ```
+
+```{r}
+# plot flipper length vs body mass 
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+         geom_point()
+```
+
+```{r}
+# plot flipper length vs body mass, color by species
+legend_pos <- theme(
+    legend.position = c(1, 0.01),
+    legend.justification = c("right", "bottom"),
+    legend.box.just = "right")
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  legend_pos
+```
+
+# Clustering
+
+## K-Means Clustering
+
+```{r}
+# clutser using k means
+k <- 3  # number of clusters
+penguins_k <- kmeans(
+  penguins %>%
+    dplyr::select(flipper_length_mm, body_mass_g), # specify dplyr select bc of R base conflicts
+  centers = k)
+
+# show cluster result
+penguins_k
+```
+
+```{r}
+# compare clusters with species (which were not used to cluster)
+table(penguins_k$cluster, penguins$species)
+```
+
+## Plot Voronoi Diagram
+
+```{r}
+# define bounding box for geom_voronoi()
+box <- tribble(
+  ~flipper_length_mm, ~body_mass_g, ~group,
+  1, 0.1, 1,
+  1, 2.5, 1,
+  7, 2.5, 1,
+  7, 0.1, 1,
+  1, 0.1, 1) %>% 
+  data.frame()
+
+# cluster using kmeans
+k <- 3  # number of clusters
+penguins_k <- kmeans(
+  penguins %>% 
+    dplyr::select(flipper_length_mm, body_mass_g), 
+  centers = k)
+
+# extract cluster assignment per observation
+Cluster = factor(penguins_k$cluster)
+
+# extract cluster centers
+ctrs <- as.data.frame(penguins_k$centers) %>% 
+  mutate(
+    Cluster = factor(1:k))
+
+# plot points with voronoi diagram showing nearest centroid
+ggplot(penguins, aes(flipper_length_mm, body_mass_g, color = Cluster)) +
+  geom_point() + 
+  legend_pos +
+  geom_voronoi(
+    data = ctrs, aes(fill=Cluster), color = NA, alpha=0.5, outline = box) + 
+  geom_point(
+    data = ctrs, pch=23, cex=2, fill="black")
+```
+
+
+
+
+
+
 
