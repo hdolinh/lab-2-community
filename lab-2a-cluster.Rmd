@@ -97,15 +97,14 @@ penguins_k <- kmeans(
   centers = k)
 
 # extract cluster assignment per observation
-Cluster = factor(penguins_k$cluster)
+Cluster = as.factor(penguins_k$cluster)
 
 # extract cluster centers
 ctrs <- as.data.frame(penguins_k$centers) %>% 
-  mutate(
-    Cluster = factor(1:k))
+  mutate(Cluster = factor(1:k))
 
 # plot points with voronoi diagram showing nearest centroid
-ggplot(penguins, aes(flipper_length_mm, body_mass_g, color = Cluster)) +
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = Cluster)) +
   geom_point() + 
   legend_pos +
   geom_voronoi(
