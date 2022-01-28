@@ -1,5 +1,5 @@
 ---
-title: 'Lab 2: Community'
+title: 'Lab 2: Community Cluster'
 author: "Halina Do-Linh"
 date: "`r Sys.Date()`"
 output:
