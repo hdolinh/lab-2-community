@@ -111,7 +111,7 @@ ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = Clus
   geom_point() + 
   legend_pos +
   geom_voronoi(
-    data = ctrs, aes(fill=Cluster), color = NA, alpha=0.5, outline = box) + 
+    data = ctrs, aes(fill=Cluster, color = NA, alpha=0.5, outline = box)) + 
   geom_point(
     data = ctrs, pch=23, cex=2, fill="black")
 ```
