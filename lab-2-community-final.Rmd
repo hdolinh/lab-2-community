@@ -82,3 +82,84 @@ penguins_k <- kmeans(
 penguins_k
 ```
 
+
+```{r}
+# compare clusters with species (which were not used to cluster)
+table(penguins_k$cluster, penguins$species)
+```
+
+## Question
+
+How many observations could be considered “misclassified” if expecting bill length and width to differentiate between species?
+
+**Answer:** 
+
+
+```{r}
+# extract cluster assignment per observation
+Cluster = factor(penguins_k$cluster)
+
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = Cluster)) +
+  geom_point() + 
+  legend_pos
+```
+
+## Plot Voronoi diagram of clustered `penguins`
+
+```{r}
+librarian::shelf(ggvoronoi, scales)
+
+# define bounding box for geom_voronoi()
+xr <- extendrange(range(penguins$bill_length_mm), f=0.1)
+yr <- extendrange(range(penguins$bill_depth_mm), f=0.1)
+box <- tribble(
+  ~bill_length_mm, ~bill_depth_mm, ~group,
+  xr[1], yr[1], 1,
+  xr[1], yr[2], 1,
+  xr[2], yr[2], 1,
+  xr[2], yr[1], 1,
+  xr[1], yr[1], 1) %>% 
+  data.frame()
+
+# cluster using kmeans
+k <- 3  # number of clusters
+penguins_k <- kmeans(
+  penguins %>% 
+    select(bill_length_mm, bill_depth_mm), 
+  centers = k)
+
+# extract cluster assignment per observation
+Cluster = factor(penguins_k$cluster)
+
+# extract cluster centers
+ctrs <- as.data.frame(penguins_k$centers) %>% 
+  mutate(
+    Cluster = factor(1:k))
+
+# plot points with voronoi diagram showing nearest centroid
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = Cluster)) +
+  geom_point() + 
+  legend_pos +
+  geom_voronoi(
+    data = ctrs, aes(fill=Cluster), color = NA, alpha=0.5, 
+    outline = box) + 
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_point(
+    data = ctrs, pch=23, cex=2, fill="black")
+```
+
+# Hierarchial Clustering
+
+```{r}
+librarian::shelf(
+  cluster, vegan)
+
+# load dune dataset from package vegan
+data("dune")
+
+# show documentation on dataset if interactive
+if (interactive())
+  help(dune)
+```
+
