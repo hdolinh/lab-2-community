@@ -12,4 +12,73 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#
+# Clustering
+
+## Load and plot `penguins` dataset
+
+```{r}
+# load R packages
+librarian::shelf(
+  dplyr, DT, ggplot2, palmerpenguins, skimr, tibble)
+
+# set seed for reproducible results
+set.seed(42)
+
+# load the dataset
+data("penguins")
+```
+
+
+```{r}
+# look at documentation in RStudio
+if (interactive())
+  help(penguins)
+
+# show data table
+datatable(penguins)
+```
+
+
+```{r}
+# skim the table for a summary
+skim(penguins)
+```
+
+
+```{r}
+# remove the rows with NAs
+penguins <- na.omit(penguins)
+
+# plot bill length vs width, species naive
+ggplot(
+  penguins, aes(bill_length_mm, bill_depth_mm)) +
+  geom_point()
+```
+
+
+```{r}
+# plot bill length vs width, color by species
+legend_pos <- theme(
+    legend.position = c(0.95, 0.05),
+    legend.justification = c("right", "bottom"),
+    legend.box.just = "right")
+ggplot(
+  penguins, aes(bill_length_mm, bill_depth_mm, color = species)) +
+  geom_point() +
+  legend_pos
+```
+
+## Cluster `penguins` using `kmeans()`
+
+```{r}
+# cluster using kmeans
+k <- 3  # number of clusters
+penguins_k <- kmeans(
+  penguins %>% 
+    select(bill_length_mm, bill_depth_mm), 
+  centers = k)
+
+# show cluster result
+penguins_k
+```
+
