@@ -92,7 +92,7 @@ table(penguins_k$cluster, penguins$species)
 
 How many observations could be considered “misclassified” if expecting bill length and width to differentiate between species?
 
-**Answer:** 
+**Answer:** At least 45 observations for the gentoo penguin could be misclassifed. It appears that the adelie penguin 
 
 
 ```{r}
@@ -167,7 +167,7 @@ if (interactive())
 ### Question
 What are the rows and columns composed of in the `dune` data frame?
 
-**Answer::** The `dune` data frame are observations of 30 species at 20 sites. The columns represent names of the species, abbreviated to 4+4 letters where the first four letters of the species and the last four are BLANK. 
+**Answer:** The `dune` data frame are observations of 30 species at 20 sites. The columns represent names of the species, abbreviated to 4+4 letters where the first four letters of the species and the last four are BLANK. 
 
 ### Calculate Ecological Distances on `sites`
 
