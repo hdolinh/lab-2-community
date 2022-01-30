@@ -92,7 +92,7 @@ table(penguins_k$cluster, penguins$species)
 
 How many observations could be considered “misclassified” if expecting bill length and width to differentiate between species?
 
-**Answer:** At least 45 observations for the gentoo penguin could be misclassifed. It appears that the adelie penguin 
+**Answer:** At least 45 observations for the gentoo penguin could be misclassifed since most gentoo observations are in the third cluster. There could also be some misclassification in the third cluster where chinstrap and adelie penguins have been added to that cluster.
 
 
 ```{r}
@@ -123,6 +123,97 @@ box <- tribble(
 
 # cluster using kmeans
 k <- 3  # number of clusters
+penguins_k <- kmeans(
+  penguins %>% 
+    select(bill_length_mm, bill_depth_mm), 
+  centers = k)
+
+# extract cluster assignment per observation
+Cluster = factor(penguins_k$cluster)
+
+# extract cluster centers
+ctrs <- as.data.frame(penguins_k$centers) %>% 
+  mutate(
+    Cluster = factor(1:k))
+
+# plot points with voronoi diagram showing nearest centroid
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = Cluster)) +
+  geom_point() + 
+  legend_pos +
+  geom_voronoi(
+    data = ctrs, aes(fill=Cluster), color = NA, alpha=0.5, 
+    outline = box) + 
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_point(
+    data = ctrs, pch=23, cex=2, fill="black")
+```
+
+**Task:** Show the Voronoi diagram for fewer (k=2) and more (k=8) clusters to see how assignment to cluster centroids work.
+
+```{r}
+# voronoi diagram for k=2
+librarian::shelf(ggvoronoi, scales)
+
+# define bounding box for geom_voronoi()
+xr <- extendrange(range(penguins$bill_length_mm), f=0.1)
+yr <- extendrange(range(penguins$bill_depth_mm), f=0.1)
+box <- tribble(
+  ~bill_length_mm, ~bill_depth_mm, ~group,
+  xr[1], yr[1], 1,
+  xr[1], yr[2], 1,
+  xr[2], yr[2], 1,
+  xr[2], yr[1], 1,
+  xr[1], yr[1], 1) %>% 
+  data.frame()
+
+# cluster using kmeans
+k <- 2  # number of clusters
+penguins_k <- kmeans(
+  penguins %>% 
+    select(bill_length_mm, bill_depth_mm), 
+  centers = k)
+
+# extract cluster assignment per observation
+Cluster = factor(penguins_k$cluster)
+
+# extract cluster centers
+ctrs <- as.data.frame(penguins_k$centers) %>% 
+  mutate(
+    Cluster = factor(1:k))
+
+# plot points with voronoi diagram showing nearest centroid
+ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = Cluster)) +
+  geom_point() + 
+  legend_pos +
+  geom_voronoi(
+    data = ctrs, aes(fill=Cluster), color = NA, alpha=0.5, 
+    outline = box) + 
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_point(
+    data = ctrs, pch=23, cex=2, fill="black")
+```
+
+
+```{r}
+# voronoi diagram for k=8
+librarian::shelf(ggvoronoi, scales)
+
+# define bounding box for geom_voronoi()
+xr <- extendrange(range(penguins$bill_length_mm), f=0.1)
+yr <- extendrange(range(penguins$bill_depth_mm), f=0.1)
+box <- tribble(
+  ~bill_length_mm, ~bill_depth_mm, ~group,
+  xr[1], yr[1], 1,
+  xr[1], yr[2], 1,
+  xr[2], yr[2], 1,
+  xr[2], yr[1], 1,
+  xr[1], yr[1], 1) %>% 
+  data.frame()
+
+# cluster using kmeans
+k <- 8  # number of clusters
 penguins_k <- kmeans(
   penguins %>% 
     select(bill_length_mm, bill_depth_mm), 
