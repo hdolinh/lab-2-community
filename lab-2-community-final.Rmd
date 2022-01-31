@@ -406,6 +406,12 @@ hc4 <- diana(dune)
 hc4$dc
 ```
 
+## Question
+
+In your own words how does agnes() differ from diana()? See HOMLR 21.3.1 Agglomerative hierarchical clustering, slides from Lecture 05. Clustering and help documentation (?agnes(), ?diana()).
+
+**Answer:** `agnes()` differs from `diana()` because the `diana()` function builds a dendrogram from the top down where it creates clusters based on disimiliarites and so we are also given a divisive coefficient.
+
 ### Determining optimal clusters
 
 ```{r}
