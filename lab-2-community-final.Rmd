@@ -437,6 +437,12 @@ How do the optimal number of clusters compare between methods for those with a d
 
 The silhouette method found the optimal number of clusters is three and the gap statistic method found the optimal number of clusters is four. This tells us there is not necessarily a definitively clear number of optimal clusters, but 3-4 clusters would be sufficient. 
 
+### Question
+
+In dendrogram plots, which is the biggest determinant of relatedness between observations: the distance between observations along the labeled axes or the height of their shared connection? See HOMLR 21.5 Working with dendrograms.
+
+**Answer:** In dendrogram plots, the relatedness between observations is most determined by the height of their shared connection. This is because height is the measure of distance, the distance on the axes don't have a connection to measure distance. It shows which observations are clustered together. 
+
 ### Working with dendrograms
 ```{r}
 # Construct dendorgram for the Ames housing example
