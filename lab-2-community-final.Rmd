@@ -301,7 +301,7 @@ sites_bray
 
 In your own words, how does Bray Curtis differ from Euclidean distance? See sites_euclidean versus sites_bray from lab code, slides from Lecture 05. Clustering and reading Chapter 8 of Kindt and Coe (2005).
 
-**Answer:** The Bray Curtis distance differs from the Euclidean distance 
+**Answer:** The Bray Curtis distance differs from the Euclidean distance because it restricts the outputs to a range of 0 to 1 (where 0 is most similar and 1 is least similar). Euclidean distance is unrestricted, and is more influenced by abundance and outliers.
 
 
 ### Agglomerative hierarchical clustering on `dune`
@@ -326,6 +326,12 @@ hc1 <- hclust(d, method = "complete" )
 plot(hc1, cex = 0.6, hang = -1)
 ```
 
+## Question
+
+Which function comes first, vegdist() or hclust(), and why? See HOMLR 21.3.1 Agglomerative hierarchical clustering.
+
+**Answer:** The function `vegdist()` comes first because it is measuring the dissimilarity values (aka distances) before it assigns a cluster. Then you use `hclust()` to create the clusters that make up the dendrogram. 
+
 
 ```{r}
 # Compute agglomerative clustering with agnes
@@ -341,6 +347,16 @@ hc2$ac
 plot(hc2, which.plot = 2)
 ```
 
+
+## Question
+
+In your own words how does hclust() differ from agnes()? See HOMLR 21.3.1 Agglomerative hierarchical clustering and help documentation (?hclust(), ?agnes()).
+
+**Answer:** The `agnes()` function creates a dendrogram from the bottom up, meaning it builds upon similar paired clusters. Where as `hclust()` joins the two most similar clusters until there is a single one. 
+
+distance between observations 
+
+Both methods start at the bottom up
 
 ```{r}
 # methods to assess
