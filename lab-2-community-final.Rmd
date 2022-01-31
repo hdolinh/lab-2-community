@@ -94,7 +94,6 @@ How many observations could be considered “misclassified” if expecting bill 
 
 **Answer:** At least 45 observations for the gentoo penguin could be misclassifed since most gentoo observations are in the third cluster. There could also be some misclassification in the third cluster where chinstrap and adelie penguins have been added to that cluster.
 
-
 ```{r}
 # extract cluster assignment per observation
 Cluster = factor(penguins_k$cluster)
@@ -103,6 +102,14 @@ ggplot(penguins, aes(bill_length_mm, bill_depth_mm, color = Cluster)) +
   geom_point() + 
   legend_pos
 ```
+
+
+## Question
+
+Comparing the observed species plot with 3 species with the kmeans() cluster plot with 3 clusters, where does this “unsupervised” kmeans() technique (that does not use species to “fit” the model) produce similar versus different results? One or two sentences would suffice. Feel free to mention ranges of values along the axes.
+
+**Answer:** The observed species plot with the unsupervised `kmeans()` technique visually shows the three species grouped as diagonal circles. The plot with the `kmeans()` technique visually shows the clusters grouped as horizontals. When comparing the two plots it appears the `kmeans()` clusters are mostly similar, but some of the gentoo and chinstrap observations have been predicted to be other species or misclassified.  
+
 
 ## Plot Voronoi diagram of clustered `penguins`
 
@@ -289,6 +296,12 @@ sites_euclidean
 sites_bray <- vegdist(sites, method="bray")
 sites_bray
 ```
+
+## Question
+
+In your own words, how does Bray Curtis differ from Euclidean distance? See sites_euclidean versus sites_bray from lab code, slides from Lecture 05. Clustering and reading Chapter 8 of Kindt and Coe (2005).
+
+**Answer:** The Bray Curtis distance differs from the Euclidean distance 
 
 
 ### Agglomerative hierarchical clustering on `dune`
