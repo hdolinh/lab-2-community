@@ -358,6 +358,9 @@ distance between observations
 
 Both methods start at the bottom up
 
+very similar, heirarchai bottom up
+agnes gives the agglomerative coefficient which is useufl in describing the strengths of the clustering structure
+
 ```{r}
 # methods to assess
 m <- c( "average", "single", "complete", "ward")
@@ -386,6 +389,12 @@ hc3$ac
 # Dendrogram plot of hc3
 plot(hc3, which.plot = 2)
 ```
+
+## Question
+	
+Of the 4 methods, which is the “best” model in terms of Agglomerative Coefficient?
+
+**Answer:** The Ward method provides the best model in terms of Agglomerative Coefficient because it minimizes the total within-cluster variance. 
 
 ### Divisive hierarchical clustering on `dune`
 
