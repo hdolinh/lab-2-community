@@ -352,7 +352,9 @@ plot(hc2, which.plot = 2)
 
 In your own words how does hclust() differ from agnes()? See HOMLR 21.3.1 Agglomerative hierarchical clustering and help documentation (?hclust(), ?agnes()).
 
-**Answer:** The `agnes()` function creates a dendrogram from the bottom up, meaning it builds upon similar paired clusters. Where as `hclust()` joins the two most similar clusters until there is a single one. 
+**Answer:** The `agnes()` function and the `hclust()` funcation are very similar and both 
+
+creates a dendrogram from the bottom up, meaning it builds upon similar paired clusters. Where as `hclust()` joins the two most similar clusters until there is a single one. 
 
 distance between observations 
 
@@ -721,7 +723,7 @@ ordisurf(vare.mds ~ Ca, data=varechem, add = TRUE, col = "green4")
 
 Which of the two NMDS axes differentiates Ca the most, i.e. has the highest value given by the contours at the end (and not middle) of the axis?
 
-**Answer:** 
+**Answer:** NMDS1 differentiates Ca the most.
 
 
 # Constrained Ordination on Species and Environment
