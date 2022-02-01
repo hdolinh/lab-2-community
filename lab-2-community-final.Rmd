@@ -262,12 +262,12 @@ if (interactive())
 ```
 
 
-### Question
+## Question
 What are the rows and columns composed of in the `dune` data frame?
 
 **Answer:** The `dune` data frame are observations of 30 species at 20 sites. The columns represent names of the species, abbreviated to 4+4 letters where the first four letters of the species and the last four are BLANK. 
 
-### Calculate Ecological Distances on `sites`
+## Calculate Ecological Distances on `sites`
 
 ```{r}
 sites <- tribble(
@@ -299,12 +299,12 @@ sites_bray
 
 ## Question
 
-In your own words, how does Bray Curtis differ from Euclidean distance? See sites_euclidean versus sites_bray from lab code, slides from Lecture 05. Clustering and reading Chapter 8 of Kindt and Coe (2005).
+In your own words, how does Bray Curtis differ from Euclidean distance?
 
 **Answer:** The Bray Curtis distance differs from the Euclidean distance because it restricts the outputs to a range of 0 to 1 (where 0 is most similar and 1 is least similar). Euclidean distance is unrestricted, and is more influenced by abundance and outliers.
 
 
-### Agglomerative hierarchical clustering on `dune`
+## Agglomerative hierarchical clustering on `dune`
 
 ```{r}
 # Dissimilarity matrix
@@ -328,7 +328,7 @@ plot(hc1, cex = 0.6, hang = -1)
 
 ## Question
 
-Which function comes first, vegdist() or hclust(), and why? See HOMLR 21.3.1 Agglomerative hierarchical clustering.
+Which function comes first, vegdist() or hclust(), and why? 
 
 **Answer:** The function `vegdist()` comes first because it is measuring the dissimilarity values (aka distances) before it assigns a cluster. Then you use `hclust()` to create the clusters that make up the dendrogram. 
 
@@ -350,18 +350,9 @@ plot(hc2, which.plot = 2)
 
 ## Question
 
-In your own words how does hclust() differ from agnes()? See HOMLR 21.3.1 Agglomerative hierarchical clustering and help documentation (?hclust(), ?agnes()).
+In your own words how does hclust() differ from agnes()?
 
-**Answer:** The `agnes()` function and the `hclust()` funcation are very similar and both 
-
-creates a dendrogram from the bottom up, meaning it builds upon similar paired clusters. Where as `hclust()` joins the two most similar clusters until there is a single one. 
-
-distance between observations 
-
-Both methods start at the bottom up
-
-very similar, heirarchai bottom up
-agnes gives the agglomerative coefficient which is useufl in describing the strengths of the clustering structure
+**Answer:** The `agnes()` function and the `hclust()` funcation are very similar and both build a dendrogram from the bottom up, meaning it builds upon similar paired clusters. `agnes()` provides the agglomerative coefficient, which is useful in describing the strengths of the clustering structure.
 
 ```{r}
 # methods to assess
@@ -398,7 +389,7 @@ Of the 4 methods, which is the “best” model in terms of Agglomerative Coeffi
 
 **Answer:** The Ward method provides the best model in terms of Agglomerative Coefficient because it minimizes the total within-cluster variance. 
 
-### Divisive hierarchical clustering on `dune`
+## Divisive hierarchical clustering on `dune`
 
 ```{r}
 # compute divisive hierarchical clustering
@@ -410,11 +401,11 @@ hc4$dc
 
 ## Question
 
-In your own words how does agnes() differ from diana()? See HOMLR 21.3.1 Agglomerative hierarchical clustering, slides from Lecture 05. Clustering and help documentation (?agnes(), ?diana()).
+In your own words how does agnes() differ from diana()?
 
-**Answer:** `agnes()` differs from `diana()` because the `diana()` function builds a dendrogram from the top down where it creates clusters based on disimiliarites and so we are also given a divisive coefficient.
+**Answer:** `agnes()` does agglomerative clustering (builds from bottom up) and gives a agglomerative coefficient. `diana()` does hierarchical clustering (builds from top to bottom) and provides a divisive coefficient. 
 
-### Determining optimal clusters
+## Determining optimal clusters
 
 ```{r}
 librarian::shelf(factoextra)
@@ -433,19 +424,19 @@ p3 <- fviz_nbclust(dune, FUN = hcut, method = "gap_stat", k.max = 10) +
 gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 ```
 
-### Question
+## Question
 
 How do the optimal number of clusters compare between methods for those with a dashed line?
 
-The silhouette method found the optimal number of clusters is three and the gap statistic method found the optimal number of clusters is four. This tells us there is not necessarily a definitively clear number of optimal clusters, but 3-4 clusters would be sufficient. 
+The silhouette method found the optimal number of clusters is three and the gap statistic method found the optimal number of clusters is four. There is not necessarily a definitively clear number of optimal clusters, but 3-4 clusters would be sufficient. 
 
-### Question
+## Question
 
-In dendrogram plots, which is the biggest determinant of relatedness between observations: the distance between observations along the labeled axes or the height of their shared connection? See HOMLR 21.5 Working with dendrograms.
+In dendrogram plots, which is the biggest determinant of relatedness between observations: the distance between observations along the labeled axes or the height of their shared connection?
 
-**Answer:** In dendrogram plots, the relatedness between observations is most determined by the height of their shared connection. This is because height is the measure of distance, the distance on the axes don't have a connection to measure distance. It shows which observations are clustered together. 
+**Answer:** In dendrogram plots, the relatedness between observations is most determined by the height of their shared connection. The x axis doesn't show a measure distance, it shows which observations are clustered together. 
 
-### Working with dendrograms
+## Working with dendrograms
 ```{r}
 # Construct dendorgram for the Ames housing example
 hc5 <- hclust(d, method = "ward.D2" )
@@ -526,7 +517,7 @@ my_pca
 
 ## Question
 
-Why is the pca_method of “GramSVD” chosen over “GLRM”? See HOMLR 17.4 Performing PCA in R.
+Why is the pca_method of “GramSVD” chosen over “GLRM”?
 
 **Answer:** `GramSVD` is chosen over `GLRM` because `GramSVD` is the `pca_method` used when your data is mostly numeric. When your data is mostly categorical you use the `GLRM` `pca_method`. 
 
@@ -562,7 +553,7 @@ my_pca@model$eigenvectors %>%
 
 What category of grocery items contribute the least to PC1 but positively towards PC2?
 
-**Answer:** The category carrot contributes the least to PC1 but postitively toward PC2.
+**Answer:** The category carrot contributes the least to PC1 but positively toward PC2.
 
 ## Eigenvalue criterion
 
@@ -738,7 +729,7 @@ vare.cca
 
 What is the difference between “constrained” versus “unconstrained” ordination within ecological context?
 
-**Answer:** In ecology, unconstrained ordination is used to visualize multivariate data. Unconstrained ordination allows us to test 
+**Answer:** In ecology, unconstrained ordination is used to visualize multivariate data. Unconstrained ordination allows us to test hypotheses 
 
 ```{r}
 # plot ordination
@@ -760,6 +751,6 @@ if (interactive()){
 
 ## Question
 
-What sites are most differentiated by CCA1, i.e. furthest apart along its axis, based on species composition AND the environmnent? What is the strongest environmental vector for CCA1, i.e. longest environmental vector in the direction of the CCA1 axes?
+What sites are most differentiated by CCA1, i.e. furthest apart along its axis, based on species composition AND the environment? What is the strongest environmental vector for CCA1, i.e. longest environmental vector in the direction of the CCA1 axes?
 
-**Answer:**
+**Answer:** Sites 4 and 28 are most differentiated by CCA1. The stronest environmental vector for CCA1 is Al.
